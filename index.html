@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP Alur Proses</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:       #0D9488;
+    --teal-2:     #14B8A6;
+    --teal-3:     #CCFBF1;
+    --teal-faint: #F0FDFA;
+    --ink:        #0F2027;
+    --ink-2:      #374151;
+    --ink-3:      #6B7280;
+    --line:       #E5E7EB;
+    --white:      #FFFFFF;
+    --warn:       #F59E0B;
+    --warn-bg:    #FFFBEB;
+    --owner:      #6366F1;
+    --owner-bg:   #EEF2FF;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: #F8FAFA;
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .logo-dot {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  .badge-prd {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: #DCFCE7;
+    color: #15803D;
+    letter-spacing: 0.5px;
+  }
+
+  /* LAYOUT */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* PAGE HEADER */
+  .page-header {
+    margin-bottom: 36px;
+    animation: up 0.5s ease both;
+  }
+
+  .page-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .page-header p {
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 5px;
+    margin-bottom: 32px;
+    width: fit-content;
+    animation: up 0.5s 0.05s ease both;
+  }
+
+  .tab {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--ink-3);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: var(--teal); }
+  .tab.active { background: var(--teal); color: white; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; animation: up 0.35s ease both; }
+
+  /* ROLE PILL */
+  .role-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 8px 18px 8px 10px;
+    margin-bottom: 28px;
+  }
+
+  .role-pill .icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+
+  .icon.nasabah { background: var(--teal-3); }
+  .icon.partner { background: var(--owner-bg); }
+
+  .role-pill .name { font-weight: 700; font-size: 14px; }
+  .role-pill .sub  { font-size: 12px; color: var(--ink-3); margin-left: 2px; }
+
+  /* FLOW GROUP */
+  .group {
+    margin-bottom: 32px;
+    animation: up 0.4s ease both;
+  }
+
+  .group-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .group-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* STEP */
+  .flow { position: relative; }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .step-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--teal);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .step-num.final { background: var(--teal); color: white; border-color: var(--teal); }
+  .step-num.warn  { background: var(--warn-bg); color: var(--warn); border-color: #FDE68A; }
+  .step-num.owner { background: var(--owner-bg); color: var(--owner); border-color: #C7D2FE; }
+
+  .vline {
+    width: 1px;
+    flex: 1;
+    min-height: 16px;
+    background: var(--line);
+    margin: 5px 0;
+  }
+
+  .step:last-child .vline { display: none; }
+
+  .step-body {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    flex: 1;
+    margin-bottom: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .step-body:hover {
+    border-color: var(--teal-2);
+    box-shadow: 0 2px 12px rgba(13,148,136,0.08);
+  }
+
+  .step-body h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .step-body p {
+    font-size: 13px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .tag.teal   { background: var(--teal-3);  color: var(--teal); }
+  .tag.indigo { background: var(--owner-bg); color: var(--owner); }
+  .tag.warn   { background: var(--warn-bg);  color: #B45309; }
+  .tag.gray   { background: #F3F4F6;          color: var(--ink-2); }
+
+  /* PRODUCT CARDS */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .product-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+    transition: all 0.2s;
+  }
+
+  .product-card:hover {
+    border-color: var(--teal-2);
+    box-shadow: 0 4px 16px rgba(13,148,136,0.09);
+    transform: translateY(-2px);
+  }
+
+  .product-card .ico { font-size: 22px; margin-bottom: 10px; }
+
+  .product-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .product-card p {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .mini-flow { display: flex; flex-direction: column; gap: 4px; }
+  .mini-row  { display: flex; align-items: center; gap: 6px; }
+
+  .mini-chip {
+    font-size: 11px;
+    padding: 2px 9px;
+    background: var(--teal-faint);
+    color: var(--teal);
+    border-radius: 100px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .mini-arrow { font-size: 11px; color: var(--ink-3); }
+
+  /* RINGKASAN */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card h3 .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--line);
+  }
+
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #F3F4F6;
+    vertical-align: top;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  td:first-child { font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #F3F4F6;
+  }
+  .rule-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .rule-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+
+  .rule-icon.warn { background: var(--warn-bg); }
+  .rule-icon.teal { background: var(--teal-3); }
+
+  .rule-text h5 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .rule-text p  { font-size: 12px; color: var(--ink-3); }
+
+  /* ANIMATIONS */
+  @keyframes up {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .group:nth-child(2) { animation-delay: 0.05s; }
+  .group:nth-child(3) { animation-delay: 0.10s; }
+  .group:nth-child(4) { animation-delay: 0.15s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 620px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .topbar { padding: 0 16px; }
+    .page { padding: 24px 16px 60px; }
+    .tabs { width: 100%; }
+    .tab { flex: 1; text-align: center; padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-dot">💼</div>
+    SOP Bisnis
+  </div>
+  <span class="badge-prd">● LIVE</span>
+</div>
+
+<div class="page">
+
+  <div class="page-header">
+    <h1>Alur Proses</h1>
+    <p>Standard Operating Procedure · Jual Beli · Dana Talang · Gadai</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="go('nasabah',this)">👤 Nasabah</button>
+    <button class="tab" onclick="go('partner',this)">🤝 Partner</button>
+    <button class="tab" onclick="go('ringkasan',this)">📋 Ringkasan</button>
+  </div>
+
+
+  <!-- ══ NASABAH ══ -->
+  <div class="section active" id="nasabah">
+
+    <div class="role-pill">
+      <div class="icon nasabah">👤</div>
+      <span class="name">Nasabah</span>
+      <span class="sub">· Pengguna produk keuangan</span>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Registrasi</div>
+      <div class="flow">
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">1</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Buka Aplikasi</h4>
+            <p>Tap <strong>"Daftar Sekarang"</strong> di halaman utama app</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">2</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Isi Data Diri Standar</h4>
+            <p>Nama lengkap · NIK · No. HP · Foto KTP</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num final">✓</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Akun & Login Otomatis — Langsung Nasabah</h4>
+            <p>Setelah submit, akun langsung terbuat. User mendapat <strong>login otomatis</strong> dan langsung terdaftar sebagai Nasabah — tanpa approval, tanpa OTP</p>
+            <div class="tags">
+              <span class="tag teal">✓ Tanpa approval</span>
+              <span class="tag teal">✓ Login otomatis</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">→</div></div>
+          <div class="step-body">
+            <h4>Pilih Produk</h4>
+            <p>Nasabah langsung bisa mengajukan produk yang dibutuhkan</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Pilih Produk</div>
+      <div class="product-grid">
+
+        <div class="product-card">
+          <div class="ico">🛒</div>
+          <h4>Jual Beli</h4>
+          <p>Ajukan pembelian barang, Owner beli, nasabah cicil</p>
+          <div class="mini-flow">
+            <div class="mini-row"><span class="mini-chip">Ajukan barang</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Owner setujui</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Barang diterima</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Cicil / Lunas</span></div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="ico">💵</div>
+          <h4>Dana Talang</h4>
+          <p>Ajukan kebutuhan dana tunai, Owner review, dana cair</p>
+          <div class="mini-flow">
+            <div class="mini-row"><span class="mini-chip">Ajukan dana</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Owner review</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Dana cair</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Cicil / Lunas</span></div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="ico">💎</div>
+          <h4>Gadai</h4>
+          <p>Gadaikan barang jaminan, Owner taksir, dana cair</p>
+          <div class="mini-flow">
+            <div class="mini-row"><span class="mini-chip">Ajukan gadai</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Taksir barang</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Dana cair</span></div>
+            <div class="mini-row"><span class="mini-arrow">↓</span></div>
+            <div class="mini-row"><span class="mini-chip">Tebus barang</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Pembayaran</div>
+      <div class="flow">
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">1</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Terima Notifikasi Jatuh Tempo</h4>
+            <p>App kirim notifikasi reminder jadwal bayar ke nasabah</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">2</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Bayar ke Rekening Owner</h4>
+            <p>Transfer sesuai tagihan ke rekening Owner, atau konfirmasi langsung ke Partner</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num final">✓</div></div>
+          <div class="step-body">
+            <h4>Owner Konfirmasi → Status Update</h4>
+            <p>Owner verifikasi pembayaran, status transaksi nasabah otomatis ter-update di app</p>
+            <div class="tags">
+              <span class="tag teal">✓ Transaksi tercatat</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ PARTNER ══ -->
+  <div class="section" id="partner">
+
+    <div class="role-pill">
+      <div class="icon partner">🤝</div>
+      <span class="name">Partner</span>
+      <span class="sub">· Pencari nasabah · Margin sharing</span>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Registrasi</div>
+      <div class="flow">
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">1</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Buka Aplikasi</h4>
+            <p>Tap <strong>"Daftar Sekarang"</strong> — form yang sama seperti registrasi nasabah biasa</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">2</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Isi Data Diri Standar</h4>
+            <p>Nama lengkap · NIK · No. HP · Foto KTP — tidak ada form khusus Partner</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">3</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Akun Terbuat — Login Otomatis</h4>
+            <p>Akun langsung aktif setelah submit. Status saat ini masih sebagai <strong>User biasa</strong></p>
+            <div class="tags">
+              <span class="tag gray">Status awal: User</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num owner">👑</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Owner Upgrade Akun → Partner</h4>
+            <p>Owner masuk ke dashboard admin, cari akun user tersebut, lalu ubah tipe akun menjadi <strong>Partner</strong></p>
+            <div class="tags">
+              <span class="tag indigo">⚙️ Dilakukan oleh Owner</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num final">✓</div></div>
+          <div class="step-body">
+            <h4>Akun Partner Aktif</h4>
+            <p>Partner sudah bisa mengakses fitur referral, dashboard komisi, dan mulai mencari nasabah</p>
+            <div class="tags">
+              <span class="tag teal">✓ Siap kerja</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Mencari & Onboarding Nasabah</div>
+      <div class="flow">
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">1</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Promosi ke Calon Nasabah</h4>
+            <p>Dari mulut ke mulut / sosmed pribadi — kenalkan produk Jual Beli, Dana Talang, Gadai</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">2</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Bantu Proses Pendaftaran</h4>
+            <p>Partner bantu calon nasabah daftar di app & tag sebagai referral agar komisi tercatat otomatis</p>
+            <div class="tags">
+              <span class="tag teal">🔗 Referral tercatat</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">3</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Pendampingan Awal</h4>
+            <p>Bantu nasabah lengkapi dokumen jika ada kendala · Jadi jembatan komunikasi ke Owner</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">4</div></div>
+          <div class="step-body">
+            <h4>Ingatkan Jadwal Bayar</h4>
+            <p>Bantu kurangi risiko kredit macet dengan mengingatkan nasabah menjelang jatuh tempo</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Margin Sharing</div>
+      <div class="flow">
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">1</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Transaksi Referral Berhasil Cair</h4>
+            <p>Setiap transaksi dari nasabah referral Partner yang berhasil → margin mulai terhitung</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num">2</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Margin Dihitung Otomatis di App</h4>
+            <p>Kalkulasi berdasarkan nilai transaksi & perjanjian bagi hasil yang disepakati</p>
+            <div class="tags">
+              <span class="tag teal">⚡ Otomatis</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num final">✓</div></div>
+          <div class="step-body">
+            <h4>Pembayaran Margin ke Partner</h4>
+            <p>Per transaksi selesai <strong>atau</strong> rekap bulanan — sesuai kesepakatan. Pantau komisi di dashboard Partner</p>
+            <div class="tags">
+              <span class="tag teal">📊 Dashboard Partner</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Jika Nasabah Macet</div>
+      <div class="flow">
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num warn">!</div><div class="vline"></div></div>
+          <div class="step-body">
+            <h4>Nasabah Referral Bermasalah</h4>
+            <p>Partner mendeteksi nasabah dari referralnya tidak membayar atau sulit dihubungi</p>
+            <div class="tags">
+              <span class="tag warn">⚠️ Perlu tindakan</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-aside"><div class="step-num owner">👑</div></div>
+          <div class="step-body">
+            <h4>Lapor ke Owner</h4>
+            <p>Partner <strong>wajib lapor</strong> kondisi nasabah macet ke Owner. Owner yang handle penyelesaian — Partner tidak pegang uang nasabah</p>
+            <div class="tags">
+              <span class="tag indigo">→ Eskalasi ke Owner</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ RINGKASAN ══ -->
+  <div class="section" id="ringkasan">
+
+    <div class="role-pill">
+      <div class="icon" style="background:#F3F4F6;">📋</div>
+      <span class="name">Ringkasan</span>
+      <span class="sub">· Overview keseluruhan flow</span>
+    </div>
+
+    <div class="card">
+      <h3><span class="dot"></span> Role & Tanggung Jawab</h3>
+      <table>
+        <thead>
+          <tr><th>Role</th><th>Masuk</th><th>Aktivitas</th><th>Output</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>👤 Nasabah</td>
+            <td>Daftar → login otomatis</td>
+            <td>Ajukan produk, bayar ke Owner</td>
+            <td>Dana / Barang</td>
+          </tr>
+          <tr>
+            <td>🤝 Partner</td>
+            <td>Daftar → Owner upgrade akun</td>
+            <td>Referral nasabah, dampingi, lapor macet</td>
+            <td>Margin sharing</td>
+          </tr>
+          <tr>
+            <td>👑 Owner</td>
+            <td>Admin backend</td>
+            <td>Approve transaksi, kelola dana, upgrade akun</td>
+            <td>Profit bisnis</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3><span class="dot"></span> Alur Per Produk</h3>
+      <table>
+        <thead>
+          <tr><th>Produk</th><th>Alur</th><th>Jaminan</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🛒 Jual Beli</td>
+            <td>Ajukan barang → Owner beli → Nasabah cicil</td>
+            <td>Barang itu sendiri</td>
+          </tr>
+          <tr>
+            <td>💵 Dana Talang</td>
+            <td>Ajukan dana → Review → Cair → Cicil</td>
+            <td>Riwayat & kepercayaan</td>
+          </tr>
+          <tr>
+            <td>💎 Gadai</td>
+            <td>Bawa barang → Taksir → Cair → Tebus</td>
+            <td>Barang jaminan fisik</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3><span class="dot"></span> Aturan Penting</h3>
+      <div class="rule-item">
+        <div class="rule-icon warn">⚠️</div>
+        <div class="rule-text">
+          <h5>Partner tidak pegang uang nasabah</h5>
+          <p>Semua transaksi dana langsung ke Owner — Partner hanya sebagai perantara pencari nasabah</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon warn">🚨</div>
+        <div class="rule-text">
+          <h5>Nasabah macet → wajib lapor ke Owner</h5>
+          <p>Partner tidak menyelesaikan sendiri — penanganan kredit macet sepenuhnya oleh Owner</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon teal">⚙️</div>
+        <div class="rule-text">
+          <h5>Upgrade akun Partner dilakukan Owner</h5>
+          <p>Registrasi Partner memakai form yang sama dengan Nasabah — Owner yang upgrade status akun via admin</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon teal">🔗</div>
+        <div class="rule-text">
+          <h5>Referral nasabah dicatat otomatis di app</h5>
+          <p>Komisi Partner terhitung dari nasabah yang didaftarkan melalui kode/tautan referral Partner</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function go(id, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+</script>
+</body>
+</html>
